@@ -1,0 +1,113 @@
+<svg width="1500" height="860" viewBox="0 0 1500 860" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1500" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#132238"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#132D46"/>
+      <stop offset="1" stop-color="#1B3F5F"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#4FD1C5"/>
+      <stop offset="1" stop-color="#7DD3FC"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+    <style>
+      .title { font: 700 42px 'Segoe UI', Arial, sans-serif; fill: #F8FAFC; }
+      .subtitle { font: 400 20px 'Segoe UI', Arial, sans-serif; fill: #CBD5E1; }
+      .stepTitle { font: 700 22px 'Segoe UI', Arial, sans-serif; fill: #F8FAFC; }
+      .stepBody { font: 400 15px 'Segoe UI', Arial, sans-serif; fill: #D7E4F2; }
+      .pill { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #082F49; }
+      .footer { font: 400 16px 'Segoe UI', Arial, sans-serif; fill: #BFDBFE; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="860" rx="28" fill="url(#bg)"/>
+  <circle cx="120" cy="90" r="160" fill="#0EA5E9" fill-opacity="0.08"/>
+  <circle cx="1340" cy="760" r="180" fill="#2DD4BF" fill-opacity="0.08"/>
+
+  <text x="70" y="90" class="title">Brand Reputation Monitor</text>
+  <text x="70" y="126" class="subtitle">A risk-first workflow for browser-capable agents monitoring brands across open web and social platforms.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="190" width="290" height="182" rx="22" fill="url(#card)" stroke="#2DD4BF" stroke-opacity="0.5"/>
+    <rect x="92" y="214" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="118" y="233" class="pill">Step 1</text>
+    <text x="92" y="274" class="stepTitle">Readiness Check</text>
+    <text x="92" y="308" class="stepBody">Detect browser control,</text>
+    <text x="92" y="330" class="stepBody">Playwright, DevTools MCP,</text>
+    <text x="92" y="352" class="stepBody">and managed-browser support.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="410" y="190" width="290" height="182" rx="22" fill="url(#card)" stroke="#7DD3FC" stroke-opacity="0.5"/>
+    <rect x="432" y="214" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="458" y="233" class="pill">Step 2</text>
+    <text x="432" y="274" class="stepTitle">Managed Browser</text>
+    <text x="432" y="308" class="stepBody">Create or reuse a dedicated</text>
+    <text x="432" y="330" class="stepBody">profile and isolate login state</text>
+    <text x="432" y="352" class="stepBody">from the user's daily browser.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="750" y="190" width="290" height="182" rx="22" fill="url(#card)" stroke="#2DD4BF" stroke-opacity="0.5"/>
+    <rect x="772" y="214" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="798" y="233" class="pill">Step 3</text>
+    <text x="772" y="274" class="stepTitle">Login Gate</text>
+    <text x="772" y="308" class="stepBody">Prompt the operator to log in</text>
+    <text x="772" y="330" class="stepBody">to X, Reddit, LinkedIn, Meta,</text>
+    <text x="772" y="352" class="stepBody">or Xiaohongshu as needed.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1090" y="190" width="330" height="182" rx="22" fill="url(#card)" stroke="#7DD3FC" stroke-opacity="0.5"/>
+    <rect x="1112" y="214" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="1138" y="233" class="pill">Step 4</text>
+    <text x="1112" y="274" class="stepTitle">Open Web First</text>
+    <text x="1112" y="308" class="stepBody">Search public web, news, forums,</text>
+    <text x="1112" y="330" class="stepBody">complaints, and reviews before</text>
+    <text x="1112" y="352" class="stepBody">deeper platform scans.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="180" y="500" width="340" height="182" rx="22" fill="url(#card)" stroke="#2DD4BF" stroke-opacity="0.5"/>
+    <rect x="202" y="524" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="228" y="543" class="pill">Step 5</text>
+    <text x="202" y="584" class="stepTitle">Platform Coverage</text>
+    <text x="202" y="618" class="stepBody">Scan official surfaces plus</text>
+    <text x="202" y="640" class="stepBody">public-discussion lanes across</text>
+    <text x="202" y="662" class="stepBody">the selected social platforms.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="580" y="500" width="340" height="182" rx="22" fill="url(#card)" stroke="#7DD3FC" stroke-opacity="0.5"/>
+    <rect x="602" y="524" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="628" y="543" class="pill">Step 6</text>
+    <text x="602" y="584" class="stepTitle">Risk Merge</text>
+    <text x="602" y="618" class="stepBody">Merge repeated narratives,</text>
+    <text x="602" y="640" class="stepBody">prioritize security and funds risk,</text>
+    <text x="602" y="662" class="stepBody">and downgrade weak noise.</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="980" y="500" width="340" height="182" rx="22" fill="url(#card)" stroke="#2DD4BF" stroke-opacity="0.5"/>
+    <rect x="1002" y="524" width="108" height="28" rx="14" fill="url(#accent)"/>
+    <text x="1028" y="543" class="pill">Step 7</text>
+    <text x="1002" y="584" class="stepTitle">Decision Report</text>
+    <text x="1002" y="618" class="stepBody">Return Green / Amber / Red,</text>
+    <text x="1002" y="640" class="stepBody">top narratives, action advice,</text>
+    <text x="1002" y="662" class="stepBody">and explicit coverage gaps.</text>
+  </g>
+
+  <path d="M360 281H410" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M700 281H750" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1040 281H1090" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1255 372V430H750V500" stroke="url(#accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M750 430H350V500" stroke="url(#accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M750 430H1150V500" stroke="url(#accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="70" y="770" class="footer">Designed for Codex, Claude, and any agent host that can combine browser control with structured risk judgment.</text>
+</svg>

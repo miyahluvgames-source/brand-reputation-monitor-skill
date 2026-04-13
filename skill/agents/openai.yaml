@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brand Reputation Monitor"
+  short_description: "Scan brand risk across open web and social platforms, with browser readiness checks and optional Telegram alerts."
+  default_prompt: "Use $brand-reputation-monitor to run one brand reputation and PR risk scan. First verify browser readiness, repair missing browser automation when local setup is allowed, create or reuse a dedicated managed browser, remind the user to log in to the requested platforms there, then scan the open web plus the selected social platforms. If Telegram alerting is enabled and credentials are available, send an alert when the risk threshold is met."
