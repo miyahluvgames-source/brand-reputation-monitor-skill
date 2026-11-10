@@ -1,7 +1,16 @@
 # Contributing
 
-Keep the core standard-library only and passive. Changes should include a reproducible failing case and a focused test when behavior changes. Run `python3 -m unittest discover -s tests -v` and both documented example commands before submitting.
+Run `python -m unittest discover -s tests -v` and the documented example commands
+before submitting. Include a focused regression test for changed behavior.
 
-Use fictional domains and cases in fixtures. Do not attach account cookies, tokens, customer identifiers, private screenshots or production ledgers. Report gaps and unknown outcomes explicitly. Avoid keyword-only sentiment scoring or automatic incident closure.
+The reporting package uses the Python standard library. The installable skill
+keeps its Playwright dependency in an isolated runtime; browser scripts and
+references must work after copying `skill/` without the repository around it.
 
-Document observable behavior and limitations. A test passing does not prove live browser compatibility or platform coverage. Preserve `skill/` relative links and the installer's no-overwrite guarantee.
+Use fictional domains and cases in fixtures. Do not attach browser profiles,
+cookies, tokens, customer identifiers or private screenshots. Platform selectors
+can change: document what was observed, and keep unknown login states explicit.
+
+Preserve the installer's no-overwrite behavior and the browser's dedicated profile.
+Integration tests use local fixture pages and must close their own browser and
+HTTP server when complete.

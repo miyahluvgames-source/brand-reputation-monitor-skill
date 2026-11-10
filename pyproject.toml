@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brand-reputation-monitor"
-version = "0.2.0"
-description = "Offline coverage accounting and a portable evidence-first reputation monitoring skill"
+version = "0.3.0"
+description = "Brand monitoring agent skill with a dedicated browser and evidence reporting toolkit"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

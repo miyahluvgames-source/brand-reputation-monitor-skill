@@ -59,21 +59,8 @@ established. Do not imply the account is a verified customer, a case is already
 located or the complaint has been resolved. Do not request sensitive details in
 public replies or introduce unrelated promises about funds or compensation.
 
-## Coverage CLI and acceptance boundary
+## Structured records
 
-The companion CLI checks plan/record structure and explicit coverage accounting.
-It cannot determine whether quotes are genuine, translations are faithful,
-claimants are independent or a risk grade is justified. Its output may feed the
-coverage section; the investigator remains responsible for semantic assessment.
-
-Keep these milestones distinct:
-
-1. A file exists and parses.
-2. A coverage record passes its structural checks.
-3. Source evidence and actual images/media have been inspected.
-4. Risk interpretation and open-case continuity have been reviewed.
-5. The user accepts the report or authorizes its delivery.
-6. The receiving service confirms delivery of that exact report.
-
-An earlier milestone does not establish a later one. A software test or sample
-report is not a live monitoring run. Report current limitations plainly.
+The optional companion CLI checks plan and coverage-record consistency and can
+render Markdown. The investigator still checks sources and interprets the
+evidence. Use its output for the coverage section, not as a factual or risk score.

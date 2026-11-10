@@ -1,4 +1,4 @@
 interface:
   display_name: "Brand Reputation Monitor"
-  short_description: "Evidence-led reputation and complaint monitoring"
-  default_prompt: "Use $brand-reputation-monitor to review the requested brand and time window, distinguish new signals from open cases, and report evidence and coverage gaps."
+  short_description: "Brand feedback research with a dedicated browser"
+  default_prompt: "Use $brand-reputation-monitor to set up monitoring for my brand, guide me through any needed browser login, and report emerging complaints, ongoing cases and recommended next steps."

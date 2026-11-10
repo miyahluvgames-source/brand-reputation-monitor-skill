@@ -9,3 +9,6 @@ run.json
 .env
 .env.*
 .DS_Store
+.runtime/
+.auth/
+profiles/
