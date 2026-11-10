@@ -1,7 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+run.json
+.env
+.env.*
 .DS_Store
-Thumbs.db
-*.tmp
-*.log
-*.bak
-*.swp
-tmp-*

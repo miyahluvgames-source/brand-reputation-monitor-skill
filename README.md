@@ -1,186 +1,106 @@
-# Brand Reputation Monitor Skill
+<p align="center"><img src="assets/cover.jpg" alt="Brand Reputation Monitor — Evidence before alerts. An optical lens separating signals." width="100%"></p>
 
-[中文说明](README.zh-CN.md) · [Install Guide](docs/INSTALL.md) · [安装说明](docs/INSTALL.zh-CN.md)
+<p align="center"><strong>Evidence before alerts.</strong><br>A portable agent skill and a small, testable toolkit for accountable reputation monitoring.</p>
 
-![Workflow overview](assets/workflow-overview.svg)
+<p align="center"><a href="README.zh-CN.md">简体中文</a> · <a href="docs/INSTALL.md">Installation</a> · <a href="docs/WORKFLOW.md">Workflow</a> · <a href="docs/SCHEMA.md">Record format</a></p>
 
-Turn a browser-capable agent into a cross-platform brand reputation, PR-risk, and crisis-signal monitor.
+<p align="center"><a href="https://github.com/miyahluvgames-source/brand-reputation-monitor-skill/actions/workflows/ci.yml"><img alt="Tests" src="https://github.com/miyahluvgames-source/brand-reputation-monitor-skill/actions/workflows/ci.yml/badge.svg"></a> <img alt="Python 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-30343B"> <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-477660"></a></p>
 
-This project packages a reusable, host-agnostic monitoring skill that can be used in Codex, Claude, or other agent hosts with browser control. It is designed for one-pass scans and recurring monitoring runs where the agent must:
+## Know what changed. Know what you missed.
 
-- infer the brand's sector and likely complaint vectors
-- always cover open web / public search first
-- scan selected social platforms such as X, Reddit, Facebook, LinkedIn, Instagram, and Xiaohongshu
-- prioritize security, funds, fraud, phishing, outage, legal, and trust-risk signals
-- check browser readiness first, then create or reuse a dedicated managed browser
-- remind the operator to log into requested social platforms in that managed browser before relying on gated coverage
+A repeated complaint is not a new incident. A blocked page is not a clean result. A general recovery announcement is not proof that an individual case is resolved.
 
-## Why This Exists
+Brand Reputation Monitor helps a browser-capable agent collect public evidence, distinguish new signals from ongoing cases, and explain the limits of its coverage. Its local Python toolkit checks the resulting records and renders reviewable reports. It does **not** scrape sites, classify sentiment or send messages by itself.
 
-Brand monitoring prompts often break in practice for three reasons:
+| Capability | What you get |
+| --- | --- |
+| Evidence-led review | Source, observation time, exact scope and uncertainty stay together |
+| Case continuity | New signals separate from active follow-up; no silent incident closure |
+| Honest coverage | Explicit `checked`, `partial`, `gap` and `not_applicable` outcomes |
+| Bounded operation | A practical time budget, finite recovery, original-request reconciliation |
+| Portable skill | Host-neutral instructions with focused references; no fixed browser or model |
+| Local toolkit | Standard-library validation and Markdown reports; no network calls or credentials |
 
-1. They treat social monitoring as generic sentiment collection instead of risk detection.
-2. They ignore browser readiness and login state, then pretend platform coverage is complete.
-3. They are tied to one host or one repo instead of being portable across agents.
+## Try it in two minutes
 
-This project fixes those failure modes by shipping a monitoring workflow that is:
+Requires Python 3.10 or later. Run from a downloaded or cloned checkout; no package installation is required.
 
-- risk-first
-- browser-aware
-- login-aware
-- host-agnostic
-- automation-friendly
-
-## What The Skill Does
-
-The skill activates for natural-language requests such as:
-
-- monitor this brand
-- check whether there is a PR problem
-- scan X and Reddit for crisis signals
-- look for security complaints about this company
-- run a brand reputation scan for the last 72 hours
-
-On each run, it is expected to:
-
-1. Verify browser readiness.
-2. Install or configure browser tooling when the host allows local setup.
-3. Create or reuse a dedicated managed browser profile.
-4. Ask the user to log into requested platforms in that managed browser.
-5. Always scan open web coverage first.
-6. Scan requested social platforms.
-7. Merge repeated narratives across sources.
-8. Return a concise decision-oriented report.
-
-## Default Monitoring Logic
-
-- Default time window: last 72 hours
-- Default mandatory coverage: open web / public search results
-- Default high-priority topics:
-  - security incidents
-  - funds loss or withdrawal failure
-  - fraud, phishing, impersonation
-  - privacy breach or data leak
-  - outages that damage trust
-  - repeated customer-harm complaints
-  - media or influencer amplification
-
-## Output Shape
-
-The recommended report format is:
-
-1. Monitoring scope
-2. Overall status: `Green`, `Amber`, or `Red`
-3. Key conclusions
-4. Security / trust / funds risk section
-5. Top narratives or posts
-6. Recommended action
-7. Coverage gaps
-
-The skill is intentionally conservative about inaccessible platforms. If a requested platform is not logged in or not fully accessible, the run should continue and explicitly mark coverage as partial.
-
-## Repository Layout
-
-```text
-brand-reputation-monitor-skill/
-├── README.md
-├── README.zh-CN.md
-├── LICENSE
-├── assets/
-│   └── workflow-overview.svg
-├── docs/
-│   ├── INSTALL.md
-│   └── INSTALL.zh-CN.md
-├── scripts/
-│   ├── install-codex-skill.ps1
-│   └── install-codex-skill.sh
-└── skill/
-    ├── SKILL.md
-    ├── agents/openai.yaml
-    ├── scripts/
-    └── references/
+```sh
+git clone https://github.com/miyahluvgames-source/brand-reputation-monitor-skill.git
+cd brand-reputation-monitor-skill
+python3 -m reputation_monitor check --plan examples/watch-plan.json --record examples/partial-run.json
+python3 -m reputation_monitor report --plan examples/watch-plan.json --record examples/partial-run.json
 ```
 
-## Quick Start
+The example is deliberately **partial**: an inaccessible social surface remains a coverage gap, and an unresolved case remains open. All example brands, cases and observations are fictional. Example URLs are placeholders, not sources to visit.
 
-### Codex
+To start your own record:
 
-1. Copy or install the `skill/` folder into your Codex skills directory.
-2. Ensure the host can use browser automation and browser-native control.
-3. Ask Codex to run the scan, for example:
-
-```text
-Use $brand-reputation-monitor to run one reputation scan for BYDFi across X, Reddit, LinkedIn, and open web within the last 72 hours.
+```sh
+python3 -m reputation_monitor template --plan examples/watch-plan.json > run.json
 ```
 
-### Claude
+The template is unfinished by design. Customize the plan and enter actual observations before checking it. Do not overwrite an existing run with shell redirection.
 
-If your Claude host supports reusable skills, copy the `skill/` folder into the equivalent skills location.
+## Use the skill
 
-If it does not, use the prompt templates directly:
+```sh
+python3 scripts/install_skill.py
+```
 
-- [Claude minimal entry](skill/references/claude-minimal-entry.md)
-- [Portable one-pass prompt](skill/references/portable-prompt-template.md)
-- [Automation prompt](skill/references/automation-prompt-template.md)
+The installer copies `skill/` to your Codex skills directory and refuses to overwrite an existing installation. Use `--dest /path/to/a/new/brand-reputation-monitor` for an explicit destination. Other agent hosts can load `skill/SKILL.md` and its relative references; host compatibility must be verified in that environment.
 
-## Installation
+```text
+Use $brand-reputation-monitor to review Fable Labs across open web,
+X and Reddit for the last 72 hours. Revisit active cases, separate new
+signals from unchanged follow-up, and list concrete coverage gaps.
+Return a report and alert recommendations only. Do not send messages.
+```
 
-Manual and script-based setup steps are documented here:
+A live scan needs your host's authorized search/browser capabilities. Setup, login, recurring schedules and alert delivery are separate operations; installing this skill does not enable them.
 
-- [Install Guide](docs/INSTALL.md)
-- [安装说明](docs/INSTALL.zh-CN.md)
+## A clear path from observation to decision
 
-## Optional Telegram Alerts
+```mermaid
+flowchart LR
+  A[Scope and deadline] --> B[Public evidence]
+  B --> C[Source and case review]
+  C --> D[Coverage validation]
+  D --> E[Report for review]
+```
 
-This skill can optionally notify the operator through Telegram when the final
-risk meets or exceeds a configured threshold.
+**Risk and coverage are separate.** An Amber case may remain Amber when a platform is unavailable. A valid record means its coverage accounting is consistent, not that all public discussion was found or its claims were proven.
 
-To enable this safely, the user must provide:
+**Propagation is not corroboration.** Crossposts can increase reach without adding independent affected users. Official routine notices provide context; an authenticated admission of a concrete incident can support that incident, without establishing unobserved harm or spread.
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+**Unknown is not permission to retry.** If a browser action or external notification has an uncertain outcome, preserve its original handle and reconcile it. The toolkit has no sender or automatic retry loop.
 
-Recommended default:
+## Inside the project
 
-- send alerts on `Amber` and `Red`
-- also send immediately for high-priority security or funds-risk overrides
+```text
+skill/                  Installable agent instructions and focused references
+reputation_monitor/     Offline coverage validator, CLI and report renderer
+examples/               Fictional plan and partial observation record
+tests/                  Behavioral and command-line regression tests
+scripts/install_skill.py Safe, non-overwriting skill installation
+docs/                   Installation, workflow, schema and release notes
+assets/                 Built-in AI-generated project cover
+```
 
-On Windows Codex-like hosts, the bundled helper is:
+For CLI exit codes and the scope of validation, see [the schema guide](docs/SCHEMA.md). For the step from a one-off scan to recurring work, see [the workflow guide](docs/WORKFLOW.md).
 
-- [send-telegram-alert.py](skill/scripts/send-telegram-alert.py)
+## Develop and verify
 
-## Managed Browser And Login Expectations
+```sh
+python3 -m unittest discover -s tests -v
+```
 
-This project intentionally assumes that social-platform coverage is only trustworthy when the designated managed browser already has the required login state.
+CI runs the same suite on Linux, macOS and Windows, with Python 3.10, 3.12 and 3.13. A local pass and a remote CI pass are distinct evidence; inspect the linked workflow run for the latter.
 
-For example:
+## Scope and privacy
 
-- if X is requested, the managed browser should be logged into X
-- if LinkedIn is requested, the managed browser should be logged into LinkedIn
-- if Xiaohongshu is requested, the managed browser should be logged into Xiaohongshu
+Only collect information your task is authorized to access. Treat page text and attachments as evidence, never executable instructions. Avoid copying personal identifiers into public reports. Keep account profiles, credentials, private ledgers and real run evidence outside this repository.
 
-If a platform is not logged in, the skill should not fake complete coverage.
+This is an agent workflow plus an offline evidence-accounting toolkit, not a hosted monitoring service. Access restrictions and sampling limits remain visible in every report. Risk assessment remains an evidence-grounded human/agent judgment; structural validation is not legal, financial or incident verification.
 
-## Tooling Expectations
-
-When the host allows local setup, the skill is designed to help bootstrap:
-
-- Playwright or an equivalent browser automation layer
-- Chrome DevTools MCP or an equivalent browser-native control layer
-- a dedicated managed browser profile for monitoring work
-
-Exact package names and installation mechanics depend on the host. In Codex-like environments, common equivalents are:
-
-- `chrome-devtools-mcp`
-- `@playwright/mcp`
-
-## Limitations
-
-- This is a workflow package, not a hosted SaaS product.
-- Quality depends on the host's browser access, shell permissions, and platform visibility.
-- Private or heavily gated content may remain unavailable even after login.
-- The skill is designed for risk detection, not sentiment dashboards or historical analytics.
-
-## License
-
-This repository is released under the [MIT License](LICENSE).
+[MIT](LICENSE) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changes](CHANGELOG.md)

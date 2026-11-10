@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brand-reputation-monitor"
+version = "0.2.0"
+description = "Offline coverage accounting and a portable evidence-first reputation monitoring skill"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Topic :: Text Processing",
+]
+
+[project.scripts]
+reputation-monitor = "reputation_monitor.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/miyahluvgames-source/brand-reputation-monitor-skill"
+
+[tool.setuptools.packages.find]
+include = ["reputation_monitor*"]
+

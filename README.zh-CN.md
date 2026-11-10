@@ -1,187 +1,85 @@
-# Brand Reputation Monitor Skill
+<p align="center"><img src="assets/cover.jpg" alt="Brand Reputation Monitor：先核证据，再做告警" width="100%"></p>
 
-[English README](README.md) · [安装说明](docs/INSTALL.zh-CN.md) · [Install Guide](docs/INSTALL.md)
+<p align="center"><strong>先核证据，再做告警。</strong><br>可安装的舆情监测技能，与轻量、可验证的本地证据核算工具。</p>
 
-![流程概览](assets/workflow-overview.svg)
+<p align="center"><a href="README.md">English</a> · <a href="docs/INSTALL.zh-CN.md">安装</a> · <a href="docs/WORKFLOW.md">工作流</a> · <a href="docs/SCHEMA.md">记录格式</a></p>
 
-把一个具备浏览器能力的 agent 变成跨平台的品牌舆论、PR 风险与危机信号监测工具。
+## 看清新增信号，也看清覆盖缺口
 
-这个项目打包了一套可复用、宿主无关的监测 skill，可用于 Codex、Claude 或其他具备浏览器控制能力的 agent 宿主。它适合做单轮巡检，也适合做定时监测。设计目标是让 agent 能够：
+同一投诉再次出现在搜索结果里，不一定是新事件；页面打不开，不代表没有风险；平台宣布恢复，也不等于每个用户的问题已解决。
 
-- 自动判断品牌所属行业与高风险投诉类型
-- 默认先覆盖公开网络信息 / 搜索结果
-- 扫描 X、Reddit、Facebook、LinkedIn、Instagram、小红书等指定社媒
-- 优先识别安全、资金、诈骗、钓鱼、宕机、合规与信任风险
-- 先检查浏览器自动化环境，再创建或复用专门的 managed browser
-- 主动提醒用户在这个 managed browser 中完成目标社媒登录，再把对应平台结果视为可信覆盖
+本项目帮助具备浏览器能力的 AI 助手收集公开证据、跟进活动案件、合并重复叙事，并交付有明确边界的监测报告。Python 工具负责核对记录和生成 Markdown 报告，**本身不联网采集、不做自动情绪打分、不发送消息**。
 
-## 为什么要做这个项目
+| 能力 | 实际作用 |
+| --- | --- |
+| 证据可追溯 | 同时保留来源、观察时间、具体范围及不确定性 |
+| 持续案件跟进 | 新信号和未解决案件分开，去重不会自动结案 |
+| 覆盖如实记录 | 已查、部分、缺口、不适用四种状态 |
+| 有界执行 | 明确截止、有限故障恢复、未知请求沿原句柄核对 |
+| 通用技能 | 不绑定品牌、特定模型、本机服务或账号环境 |
+| 离线工具 | Python 标准库，无运行依赖、密钥及自动后台进程 |
 
-很多品牌监测 prompt 在真实环境里会失败，通常是因为：
+## 两分钟体验
 
-1. 它们把社媒监测当成情绪收集，而不是风险识别。
-2. 它们忽略浏览器自动化环境和登录态，却默认平台覆盖完整。
-3. 它们绑定在某一个宿主或某一个项目里，无法跨 agent 复用。
+需要 Python 3.10 或更新版本，在项目目录直接运行：
 
-这个项目就是为了解决这些问题。它提供的是一套：
-
-- 风险优先
-- 浏览器环境优先
-- 登录态优先
-- 宿主无关
-- 适合自动化调度
-
-的监测工作流。
-
-## 这个 Skill 会做什么
-
-它会响应类似下面的自然语言请求：
-
-- 监测这个品牌的舆情
-- 看看最近有没有 PR 风险
-- 扫一下 X 和 Reddit 上有没有危机信号
-- 看看这个公司有没有安全投诉
-- 过去 72 小时跑一轮品牌舆情监测
-
-在每一轮运行中，预期执行顺序是：
-
-1. 先检查浏览器环境是否可用。
-2. 如果宿主允许本地安装和配置，则自动补齐浏览器能力。
-3. 创建或复用一个专门的 managed browser profile。
-4. 提醒用户在该浏览器里登录目标平台。
-5. 永远先扫描公开网络信息。
-6. 再扫描指定社媒平台。
-7. 合并跨平台重复叙事。
-8. 输出一份精炼、可决策的风险报告。
-
-## 默认监测逻辑
-
-- 默认时效范围：最近 72 小时
-- 默认必须覆盖：公开网络 / 搜索结果
-- 默认高优先级主题：
-  - 安全事件
-  - 资产损失或提现失败
-  - 诈骗、钓鱼、假冒
-  - 隐私泄露或数据泄露
-  - 影响信任的宕机事件
-  - 重复出现的用户伤害型投诉
-  - 媒体或 KOL 放大传播
-
-## 输出结构
-
-推荐输出结构如下：
-
-1. 监测范围
-2. 总体状态：`Green` / `Amber` / `Red`
-3. 核心结论
-4. 安全 / 信任 / 资金风险
-5. 重点叙事或重点帖子
-6. 建议动作
-7. 覆盖缺口
-
-如果某个平台没有登录或无法完整访问，这套 skill 的设计原则是继续扫描其他来源，并明确把该平台标记为 partial coverage，而不是伪造完整覆盖。
-
-## 项目结构
-
-```text
-brand-reputation-monitor-skill/
-├── README.md
-├── README.zh-CN.md
-├── LICENSE
-├── assets/
-│   └── workflow-overview.svg
-├── docs/
-│   ├── INSTALL.md
-│   └── INSTALL.zh-CN.md
-├── scripts/
-│   ├── install-codex-skill.ps1
-│   └── install-codex-skill.sh
-└── skill/
-    ├── SKILL.md
-    ├── agents/openai.yaml
-    ├── scripts/
-    └── references/
+```sh
+git clone https://github.com/miyahluvgames-source/brand-reputation-monitor-skill.git
+cd brand-reputation-monitor-skill
+python3 -m reputation_monitor check --plan examples/watch-plan.json --record examples/partial-run.json
+python3 -m reputation_monitor report --plan examples/watch-plan.json --record examples/partial-run.json
 ```
 
-## 快速开始
+示例使用虚构品牌与占位 URL，故意保留一个无法访问的平台和一个尚未解决的案件。得到 `partial` 是如实交付，不是把缺口隐藏起来；这些示例不代表真实监测结论。
 
-### 在 Codex 中使用
+新建待填写记录：
 
-1. 把 `skill/` 目录复制或安装到 Codex 的 skills 目录。
-2. 确保宿主具备浏览器自动化和浏览器原生控制能力。
-3. 直接发起请求，例如：
-
-```text
-Use $brand-reputation-monitor to run one reputation scan for BYDFi across X, Reddit, LinkedIn, and open web within the last 72 hours.
+```sh
+python3 -m reputation_monitor template --plan examples/watch-plan.json > run.json
 ```
 
-### 在 Claude 中使用
+请先按实际需求修改监测计划，再填写真实观察。模板不包含伪造的“已检查”证据；不要用重定向覆盖已有记录。
 
-如果你的 Claude 宿主支持可复用 skills，就把 `skill/` 目录复制到对应的 skill 目录。
+## 安装技能
 
-如果不支持，可以直接使用这些 prompt 模板：
+```sh
+python3 scripts/install_skill.py
+```
 
-- [Claude 极简入口](skill/references/claude-minimal-entry.md)
-- [通用单轮 prompt](skill/references/portable-prompt-template.md)
-- [自动化 prompt](skill/references/automation-prompt-template.md)
+默认复制到 Codex 技能目录，遇到已有目录会停止，不覆盖原技能。也可用 `--dest` 指定新的完整目标路径；其他助手可按其支持的方式加载 `skill/SKILL.md` 与相对引用文件。
 
-## 安装说明
+示例任务：
 
-手动安装和脚本安装都写在这里：
+```text
+使用 $brand-reputation-monitor，检查 Fable Labs 最近72小时在公开网页、
+X、Reddit上的反馈。跟进已有未解决案件，区分新增信号和未变动状态，
+列出具体覆盖缺口。只输出报告和告警建议，不发送消息。
+```
 
-- [安装说明](docs/INSTALL.zh-CN.md)
-- [Install Guide](docs/INSTALL.md)
+真实扫描需要宿主已有且获准使用的搜索与浏览器能力。安装技能不会启动定时任务、登录账号或开启通知。
 
-## 可选 Telegram 告警
+## 几条关键判断
 
-这套 skill 现在可以在最终风险达到设定阈值时，自动通过 Telegram 向用户发通知。
+- 风险等级与覆盖程度分别判断：平台无法访问，不会自动把 Amber 降为 Green。
+- 转发是传播，未必是独立佐证；多个帖子可能来自同一位投诉者。
+- 例行官方公告是背景；经过认证的具体事故确认可支撑对应事实，但不能据此编造受害者数量或传播情况。
+- 无新进展不代表已解决；不可访问的后续保持未知，结案需要对应个案证据。
+- 浏览器或外发结果未知时，沿原句柄核对，不能换请求再次发送。
 
-要开启这个功能，用户必须提供：
+## 项目组成
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+`skill/` 提供分层技能与参考；`reputation_monitor/` 提供覆盖校验和报告 CLI；`examples/` 是虚构样例；`tests/` 是行为回归测试；`docs/` 说明安装、记录格式和运行边界。
 
-推荐默认策略：
+```sh
+python3 -m unittest discover -s tests -v
+```
 
-- `Amber` 和 `Red` 发送
-- 如果命中高优先级安全 / 资金风险覆盖条件，则立即发送
+CI 配置覆盖 Linux、macOS、Windows 与 Python 3.10、3.12、3.13；本机通过与远程 CI 通过分别核验，请查看仓库 Actions 的实际结果。
 
-在 Windows Codex 类宿主上，内置 helper 在这里：
+## 隐私与能力边界
 
-- [send-telegram-alert.py](skill/scripts/send-telegram-alert.py)
+项目不包含真实客户案例、账号配置、凭据或运行数据。网页内容只作为证据，不作为执行指令；公开报告应减少不必要的个人信息。
 
-## Managed Browser 与登录态要求
+这是可复用技能与离线核算工具，不是托管监测 SaaS，也不保证平台全量覆盖。结构校验通过不代表事实已证实、风险判断正确或用户已接受结果。
 
-这个项目的一个核心前提是：只有当指定的 managed browser 已经具备目标社媒的登录态时，该平台的结果才应被视为可靠覆盖。
-
-例如：
-
-- 如果要监测 X，就应在 managed browser 中登录 X
-- 如果要监测 LinkedIn，就应在 managed browser 中登录 LinkedIn
-- 如果要监测小红书，就应在 managed browser 中登录小红书
-
-如果没有登录，该 skill 不应该假装“已经完整覆盖该平台”。
-
-## 浏览器工具预期
-
-当宿主允许本地安装与配置时，这个 skill 预期会帮助补齐：
-
-- Playwright 或等价的浏览器自动化能力
-- Chrome DevTools MCP 或等价的浏览器原生控制能力
-- 一个专门用于监测任务的 managed browser profile
-
-具体包名和安装方式取决于宿主。在 Codex 类环境里，常见等价物是：
-
-- `chrome-devtools-mcp`
-- `@playwright/mcp`
-
-## 当前限制
-
-- 这是一个工作流型工具包，不是 SaaS 产品。
-- 最终效果取决于宿主是否给浏览器访问、shell 权限和平台可见性。
-- 私密内容或高门槛平台内容，即使登录后也可能仍然受限。
-- 这套 skill 的目标是风险识别，不是历史数据看板或情绪统计报表。
-
-## License
-
-本仓库使用 [MIT License](LICENSE)。
+[MIT 许可](LICENSE) · [贡献指南](CONTRIBUTING.md) · [安全说明](SECURITY.md) · [更新记录](CHANGELOG.md)

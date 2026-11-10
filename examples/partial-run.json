@@ -1,0 +1,49 @@
+{
+  "watch_id": "fable-labs-demo",
+  "started_at": "2026-11-10T09:00:00Z",
+  "ended_at": "2026-11-10T09:25:00Z",
+  "newSignals": [],
+  "plan_review": "Synthetic demonstration only. No real platform was queried.",
+  "surfaces": [
+    {
+      "id": "open-web",
+      "status": "checked",
+      "observed_at": "2026-11-10T09:05:00Z",
+      "summary": "Fictional web sample; no newly recorded narrative in this sample.",
+      "links": ["https://example.com/demo/search"],
+      "reason": ""
+    },
+    {
+      "id": "community-comments",
+      "status": "gap",
+      "observed_at": "",
+      "summary": "No original community comments were readable in this demonstration.",
+      "links": [],
+      "reason": "The hypothetical platform requires unavailable access. No alternative account was used."
+    }
+  ],
+  "topics": [
+    {
+      "id": "account-access",
+      "status": "partial",
+      "observed_at": "2026-11-10T09:10:00Z",
+      "summary": "Fictional public web context reviewed; the community discussion remains unobserved.",
+      "links": ["https://example.com/demo/account-context"],
+      "reason": "Community comment coverage is unavailable."
+    }
+  ],
+  "active_cases": [
+    {
+      "id": "DEMO-001",
+      "status": "gap",
+      "observed_at": "",
+      "summary": "The fictional original complaint could not be revisited; no resolution inferred.",
+      "links": [],
+      "reason": "Original thread not accessible in this demonstration.",
+      "case_state": "unknown",
+      "lastMaterialUpdate": "2026-11-08T14:00:00Z",
+      "next_check": "Revisit the original thread and look for a case-specific support or user outcome.",
+      "resolution_evidence": ""
+    }
+  ]
+}

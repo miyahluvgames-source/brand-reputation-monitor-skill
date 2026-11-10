@@ -1,0 +1,15 @@
+{
+  "watch_id": "fable-labs-demo",
+  "brand": "Fable Labs (fictional)",
+  "review_after": "2026-11-11T00:00:00Z",
+  "surfaces": [
+    {"id": "open-web", "description": "Public web discussion and official incident context"},
+    {"id": "community-comments", "description": "Original public community posts and replies"}
+  ],
+  "topics": [
+    {"id": "account-access", "description": "Account recovery and access complaints"}
+  ],
+  "active_cases": [
+    {"id": "DEMO-001", "description": "Fictional unresolved account-recovery complaint"}
+  ]
+}
